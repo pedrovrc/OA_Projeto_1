@@ -2,11 +2,18 @@
 #include "indice_primario.h"
 
 int main() {
-    FILE* arquivo1 = fopen("arquivos_principais/lista1.txt", "r+");
-    FILE* arquivo2 = fopen("arquivos_principais/lista2.txt", "r+");
+    FILE* lista1 = fopen("arquivos_principais/lista1.txt", "r+");
+    FILE* lista2 = fopen("arquivos_principais/lista2.txt", "r+");
 
-    gera_indice(arquivo1, "lista1.txt", "indicelista1.ind");
-    gera_indice(arquivo2, "lista2.txt", "indicelista2.ind");
+    gera_indice_primario(lista1, "indicelista1.ind");
+    gera_indice_primario(lista2, "indicelista2.ind");
+
+    FILE* ind_prim1 = fopen("arquivos_principais/indicelista1.ind", "r+");
+    FILE* ind_prim2 = fopen("arquivos_principais/indicelista2.ind", "r+");    
+
+    gera_indice_secundario(lista1, ind_prim1, "ind_sec_lista1.ind");
+    gera_indice_secundario(lista2, ind_prim2, "ind_sec_lista2.ind");
+
 
     return 0;
 }

@@ -1,4 +1,19 @@
 #include <stdio.h>
-#include <dirent.h>
 
-void gera_indice(FILE* referencia, char* nome_arquivo, char* nome_gerado);
+typedef struct Inicia_chave{
+	char chave[30];
+	struct Inicia_chave *prox;
+	int NRR;
+} inicia_chave;
+
+
+typedef struct Inicia_curso{
+	char curso[2];
+	struct Inicia_curso *prox;
+	inicia_chave *primeiro;
+} inicia_curso;
+
+
+int gera_indice_primario(FILE* arq_base, char* nome_gerado);
+
+int gera_indice_secundario(FILE* arq_base, FILE* ind_prim, char* nome_gerado);
