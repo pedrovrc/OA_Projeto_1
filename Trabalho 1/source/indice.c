@@ -58,10 +58,10 @@ int gera_ind_prim(FILE* arq_base, char* nome_gerado) {
     }
 
     rewind(arq_base);
+    atualiza_cabecalho(nome_gerado, endereco_registro);
     fclose(indices);
     return 0;
 }
-
 /*
 		Explicacao da Estrutura de Dados (ED) usada nas funcoes gera_ind_sec()
 	e escreve_arqs_sec():
@@ -159,7 +159,8 @@ int gera_ind_sec(FILE* arq_base, FILE* ind_prim, char* nome_gerado) {
     	lista_comeco = lista_comeco->prox;
     	free(sentinela_curso);
     }
-
+    rewind(ind_prim);
+    rewind(arq_base);
     return 0;
 }
 
@@ -172,7 +173,8 @@ void escreve_arqs_sec(inicia_curso *lista_comeco, char *nome_gerado) {
     strcat(caminho_label, nome_gerado);
 
     int flag; // Valores: 0 = Primeira insercao de chave; 1 = Caso contrario
-    int linha_atual = 0;
+    int linha_atual_lista = 0;
+    int conta_linhas_ind = 0;
 
     FILE *ind_sec = fopen(caminho_indice, "w");
     FILE *label_id = fopen(caminho_label, "w");
@@ -192,17 +194,19 @@ void escreve_arqs_sec(inicia_curso *lista_comeco, char *nome_gerado) {
                 fprintf(label_id, "%s -1\n", chave_aux->chave);
                 flag = 1;
             } else {
-                fprintf(label_id, "%s %d\n", chave_aux->chave, linha_atual-1);
+                fprintf(label_id, "%s %d\n", chave_aux->chave, linha_atual_lista-1);
             }
-            linha_atual++;
+            linha_atual_lista++;
             chave_aux = chave_aux->prox;
         }
 
         // Adiciona registro de indice secundario
-        fprintf(ind_sec, "%s %d\n", curso_aux->curso, linha_atual-1);
+        fprintf(ind_sec, "%s %d\n", curso_aux->curso, linha_atual_lista-1);
+        conta_linhas_ind++;
         curso_aux = curso_aux->prox;
     }
 
+    atualiza_cabecalho(caminho_indice, conta_linhas_ind);
     fclose(label_id);
     fclose(ind_sec);
     return;
