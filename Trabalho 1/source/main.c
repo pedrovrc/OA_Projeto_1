@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "indice_primario.h"
+#include "indice.h"
 
 int main() {
 

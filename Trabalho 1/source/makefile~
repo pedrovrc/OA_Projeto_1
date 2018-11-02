@@ -22,7 +22,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _OBJT = tests.o indice.o
 OBJT = $(patsubst %,$(ODIR)/%,$(_OBJT))
 
-all: index testa_index
+all: indice_primario testa_ind_prim
 
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -30,10 +30,10 @@ $(ODIR)/%.o: %.c $(DEPS)
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CCPLUS) -c -o $@ $< $(G_FLAGS)
 
-index: $(OBJ)
+indice_primario: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-testa_index: $(OBJT)
+testa_ind_prim: $(OBJT)
 	$(CCPLUS) -o $@ $^ $(LD_FLAGS)
 
 .PHONY: clean

@@ -1,4 +1,4 @@
-#include "indice.c"
+#include "indice_primario.c"
 #include <gtest/gtest.h>
 
 
