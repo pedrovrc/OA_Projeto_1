@@ -13,13 +13,13 @@ LDIR =../lib
 
 LIBS=-lm
 
-_DEPS = indice_primario.h
+_DEPS = indice.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o indice_primario.o 
+_OBJ = main.o indice.o 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-_OBJT = tests.o indice_primario.o
+_OBJT = tests.o indice.o
 OBJT = $(patsubst %,$(ODIR)/%,$(_OBJT))
 
 all: indice_primario testa_ind_prim
