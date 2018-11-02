@@ -58,6 +58,7 @@ int gera_ind_prim(FILE* arq_base, char* nome_gerado) {
     }
 
     rewind(arq_base);
+    atualiza_cabeçalho(masd, sldksk);
     fclose(indices);
     return 0;
 }
@@ -159,7 +160,8 @@ int gera_ind_sec(FILE* arq_base, FILE* ind_prim, char* nome_gerado) {
     	lista_comeco = lista_comeco->prox;
     	free(sentinela_curso);
     }
-
+    rewind(ind_prim);
+    rewind(arq_base);
     return 0;
 }
 
