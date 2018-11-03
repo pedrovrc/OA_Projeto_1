@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include "indice.h"
 #include "ordenacao.h"
+#include "pesquisa.h"
+
+#define TAM_REG 65
 
 int main() {
 
     int opcao = -1;
-    char string[65];
+    char string[TAM_REG];
+    char indicacao[TAM_REG+4] = "MATRIC NOME                                     OP  CURSO    TURMA";
     cell_string *estrutura;
 	// Criacao dos arquivos de indice primario e secundario
     FILE* lista1 = fopen("arquivos_principais/lista1.txt", "r+");
@@ -33,12 +37,16 @@ int main() {
 
     fclose(lista1);
     fclose(lista2);
-
-    /*
+    
     do {
+        for(int i = 0; i < TAM_REG; i++) {
+            string[i] = ' ';
+        }
+        string[TAM_REG] = '\0';
+
         printf("Deseja pesquisar de que forma?\n");
         printf("1. matricula\n2. curso\n3. nome\n\n");
-        scanf("%d", opcao);
+        scanf("%d", &opcao);
         if (opcao != 1 && opcao != 2 && opcao != 3) {
             printf("Entrada invalida!\n\n");
         }
@@ -47,9 +55,10 @@ int main() {
     if (pesquisa(opcao, string) != 0) {
         printf("Registro nao encontrado!\n");
     } else {
+        printf("\nRegistro encontrado:\n%s\n", indicacao);
         printf("%s\n", string);
     }
-    */
+
     return 0;
 }
 
