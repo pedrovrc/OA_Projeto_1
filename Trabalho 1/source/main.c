@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include "indice.h"
 #include "ordenacao.h"
+#include "pesquisa.h"
+
+#define TAM_REG 65
 
 int main() {
 
-    int opcao = -1;
-    char string[65];
-    cell_string *estrutura;
+    int opcao = -1, conta_print = 0;
+    char registro1[TAM_REG], registro2[TAM_REG];
+    char indicacao[TAM_REG+4] = "   MATRIC NOME                                     OP  CURSO    TURMA";
 	// Criacao dos arquivos de indice primario e secundario
     FILE* lista1 = fopen("arquivos_principais/lista1.txt", "r+");
     FILE* lista2 = fopen("arquivos_principais/lista2.txt", "r+");
@@ -33,40 +36,37 @@ int main() {
 
     fclose(lista1);
     fclose(lista2);
-
-    /*
+    
     do {
+        for(int i = 0; i < TAM_REG; i++) {
+            registro1[i] = ' ';
+            registro2[i] = ' ';
+        }
+        registro1[TAM_REG] = '\0';
+        registro2[TAM_REG] = '\0';
+
         printf("Deseja pesquisar de que forma?\n");
         printf("1. matricula\n2. curso\n3. nome\n\n");
-        scanf("%d", opcao);
+        scanf("%d", &opcao);
         if (opcao != 1 && opcao != 2 && opcao != 3) {
             printf("Entrada invalida!\n\n");
         }
     } while (opcao != 1 && opcao != 2 && opcao != 3);
     
-    if (pesquisa(opcao, string) != 0) {
+    if (pesquisa(opcao, registro1, registro2) != 0) {
         printf("Registro nao encontrado!\n");
+
     } else {
-        printf("%s\n", string);
-    }
-    */
-    return 0;
-}
-
-/*
-int main() {
-    FILE* strings = fopen("strings.txt", "r");
-    cell_string *estrutura;
-
-    if (strings == NULL) {
-        printf("ERRO AO CARREGAR ARQUIVO\n");
-        return 1;
+        printf("\nRegistro(s) encontrado(s):\n%s\n", indicacao);
+        if (registro1[0] != '*') {
+            conta_print++;
+            printf("%d. %s", conta_print, registro1);
+        }
+        if (registro2[0] != '*') {
+            conta_print++;
+            printf("%d. %s", conta_print, registro2);
+        }
     }
 
-    estrutura = le_strings(strings);
-    ordena(estrutura);
-
-    fclose(strings);
     return 0;
 }
-*/
