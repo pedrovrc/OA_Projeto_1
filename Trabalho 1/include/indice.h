@@ -5,7 +5,6 @@ typedef struct Inicia_chave{
 	struct Inicia_chave *prox;
 } inicia_chave;
 
-
 typedef struct Inicia_curso{
 	char curso[3];
 	struct Inicia_curso *prox;
