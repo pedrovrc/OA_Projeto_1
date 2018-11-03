@@ -1,0 +1,4 @@
+indicelista1.ind                                 19
+indicelista2.ind                                 22
+ind_sec_lista1.ind                               3
+ind_sec_lista2.ind                               3
