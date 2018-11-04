@@ -14,3 +14,10 @@ lista_NRR *pesquisa_curso();
 lista_NRR *busca_curso(char *chave, int tipo, int tam_ind, FILE *arq_ind_sec, FILE *arq_label_id, FILE *arq_ind_prim);
 int busca_sequencial(char *chave, FILE *arq_base);
 int busca_binaria_int(int *array, int esquerda, int direita, int chave);
+
+lista_NRR* cria_lista();
+int tam_arqs_ind(FILE* arq_cabec, int *tam_ind1, int *tam_ind2);
+void le_chaves_primarias(FILE* arq_ind_prim, int tam_ind, int* chaves_primarias);
+int acha_matricula(FILE* arq_ind_prim, FILE* arq_base, lista_NRR* inicio, int tipo, int* flag, int pos_array, char* reg);
+void printa_nome(FILE* arq_base, int NRR, int* conta);
+void printa_lista(FILE* arq_base, lista_NRR* inicio_lista, int *conta);
