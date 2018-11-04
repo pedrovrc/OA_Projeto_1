@@ -9,7 +9,6 @@ int main() {
 
     int opcao = -1, conta_print = 0;
     char registro1[TAM_REG], registro2[TAM_REG];
-    char indicacao[TAM_REG+4] = "   MATRIC NOME                                     OP  CURSO    TURMA";
 	// Criacao dos arquivos de indice primario e secundario
     FILE* lista1 = fopen("arquivos_principais/lista1.txt", "r+");
     FILE* lista2 = fopen("arquivos_principais/lista2.txt", "r+");
@@ -53,19 +52,13 @@ int main() {
         }
     } while (opcao != 1 && opcao != 2 && opcao != 3);
     
-    if (pesquisa(opcao, registro1, registro2) != 0) {
-        printf("Registro nao encontrado!\n");
+    lista_NRR *pRetorno= pesquisa(opcao);
 
+    if (pRetorno->NRR == -1) {
+        printf("Registro nao encontrado!\n");
+        //possível inserção
     } else {
-        printf("\nRegistro(s) encontrado(s):\n%s\n", indicacao);
-        if (registro1[0] != '*') {
-            conta_print++;
-            printf("%d. %s", conta_print, registro1);
-        }
-        if (registro2[0] != '*') {
-            conta_print++;
-            printf("%d. %s", conta_print, registro2);
-        }
+        //atualizar ou excluir
     }
 
     return 0;
