@@ -100,7 +100,7 @@ int gera_ind_prim(FILE* arq_base, char* nome_gerado) {
 		De cada celula de curso, sai uma lista de structs do tipo inicia_chave,
 	com uma celula para cada registro (aluno) pertencente aquele curso no
 	arquivo base.
-		Detalhes das structs no arquivo indice.h
+		Declaracoes das structs no arquivo indice.h
 */
 
 
