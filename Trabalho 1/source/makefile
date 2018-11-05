@@ -19,22 +19,13 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ = main.o indice.o ordenacao.o manutencao.o pesquisa.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-_OBJT = tests.o indice.o manutencao.o
-OBJT = $(patsubst %,$(ODIR)/%,$(_OBJT))
-
-all: index testa_index
+all: index
 
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(ODIR)/%.o: %.cpp $(DEPS)
-	$(CCPLUS) -c -o $@ $< $(G_FLAGS)
-
 index: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-testa_index: $(OBJT)
-	$(CCPLUS) -o $@ $^ $(LD_FLAGS)
 
 .PHONY: clean
 

@@ -17,3 +17,5 @@ int gera_ind_prim(FILE* arq_base, char* nome_gerado);
 int gera_ind_sec(FILE* arq_base, FILE* ind_prim, char* nome_gerado);
 
 void escreve_arqs_sec(inicia_curso *lista_comeco, char *nome_gerado);
+
+FILE *intercalacao(char *nome_arq);

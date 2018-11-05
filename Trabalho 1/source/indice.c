@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include "indice.h"
 #include "manutencao.h"
+#include "pesquisa.h"
 
 #define TAM_REG 65			// Tamanho do registro do arquivo base
 #define TAM_CHAVE 30		// Tamanho da chave primaria do arquivo de indices
@@ -11,6 +12,7 @@
 #define TAM_DIR 80			// Tamanho da string para nome do diretorio
 #define POS_CURSO 52		// Posicao do campo de curso no arquivo base
 #define TAM_PULO 10			// Tamanho de string pra ajustar ponteiro de arq.
+#define BUFFER 100
 
 
 int gera_ind_prim(FILE* arq_base, char* nome_gerado) {
@@ -217,3 +219,104 @@ void escreve_arqs_sec(inicia_curso *lista_comeco, char *nome_gerado) {
     fclose(ind_sec);
     return;
 }
+
+FILE *intercalacao(char *nome_arq) {
+
+    int tam_ind1, tam_ind2, flag = 0, perdeu = 0;
+    int chave1, chave2, NRR1, NRR2, contador1 = 0, contador2 = 0;
+    char caminho[TAM_DIR] = "arquivos_principais/";
+    char linha[BUFFER];
+    char registro1[TAM_REG], registro2[TAM_REG];
+    strcat(caminho, nome_arq);
+
+    FILE *arq_interc = fopen(caminho, "w");
+    FILE *arq_base1 = fopen("arquivos_principais/lista1.txt", "r");
+    FILE *arq_base2 = fopen("arquivos_principais/lista2.txt", "r");
+    FILE *arq_ind1 = fopen("arquivos_principais/indicelista1.ind", "r");
+    FILE *arq_ind2 = fopen("arquivos_principais/indicelista2.ind", "r");
+    FILE *arq_cabec = fopen("arquivos_principais/cabecalho.txt", "r");
+
+    tam_arqs_ind(arq_cabec, &tam_ind1, &tam_ind2);
+
+    while (contador1 < tam_ind1 && contador2 < tam_ind2) {
+        if (contador1 < tam_ind1 && perdeu != 1) {
+            // le arq_ind1
+            fscanf(arq_ind1, "%d", &chave1);
+            fgets(linha, TAM_CHAVE-4, arq_ind1);
+            fscanf(arq_ind1, "%d", &NRR1);
+            fgets(linha, BUFFER, arq_ind1);
+        } else {
+            if (perdeu != 1) {
+                flag = 1;
+            }
+        }
+
+        if (contador2 < tam_ind2 && perdeu != 2) {
+            // le arq_ind2
+            fscanf(arq_ind2, "%d", &chave2);
+            fgets(linha, TAM_CHAVE-4, arq_ind2);
+            fscanf(arq_ind2, "%d", &NRR2);
+            fgets(linha, BUFFER, arq_ind2);
+        } else {
+            if (perdeu != 2) {
+                flag = 2;
+            }
+        }
+
+        if (flag == 0) {
+            // compara 2 registros
+            if (chave1 <= chave2) {
+                for (int i = 0; i < NRR1; i++) {
+                    fgets(linha, BUFFER, arq_base1);
+                }
+                fgets(registro1, TAM_REG, arq_base1);
+                rewind(arq_base1);
+                perdeu = 2;
+            }
+            if (chave1 >= chave2) {
+                for (int i = 0; i < NRR2; i++) {
+                    fgets(linha, BUFFER, arq_base2);
+                }
+                fgets(registro2, TAM_REG, arq_base2);
+                rewind(arq_base2);
+                perdeu = 1;
+            }
+            if (chave1 == chave2) {
+                perdeu = 0;
+            }
+        } else if ( flag == 1) {
+            // le e insere reg do arq_ind2
+            for (int i = 0; i < NRR2; i++) {
+                fgets(linha, BUFFER, arq_base2);
+            }
+            fgets(registro2, TAM_REG, arq_base2);
+            rewind(arq_base2);
+        } else {
+            // le e insere reg do arq_ind1
+            for (int i = 0; i < NRR1; i++) {
+                fgets(linha, BUFFER, arq_base1);
+            }
+            fgets(registro1, TAM_REG, arq_base1);
+            rewind(arq_base1);
+        }
+
+        if (perdeu == 2 || perdeu == 0) {
+            fprintf(arq_interc, "%s", registro1);
+            contador1++;
+        }
+        if (perdeu == 1 || perdeu == 0) {
+            fprintf(arq_interc, "%s", registro2);
+            contador2++;
+        }
+    }
+
+    fclose(arq_base1);
+    fclose(arq_base2);
+    fclose(arq_ind1);
+    fclose(arq_ind2);
+    fclose(arq_cabec);
+
+    rewind(arq_interc);
+    return arq_interc;
+}
+
