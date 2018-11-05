@@ -1,3 +1,4 @@
+#include "pesquisa.c"
 #include "indice.c"
 #include "manutencao.c"
 #include <gtest/gtest.h>
