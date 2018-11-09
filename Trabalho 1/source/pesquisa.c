@@ -568,6 +568,10 @@ void printa_lista(FILE* arq_base, lista_NRR* inicio_lista, int *conta) {
     lista_NRR* aux;
     char linha[BUFFER], reg[TAM_REG];
 
+    if (inicio_lista->NRR == -1) {
+    	return;
+    }
+
     if (*conta == 0) {
         printf("   MATRIC NOME                                     OP  CURSO    TURMA\n");
     }
