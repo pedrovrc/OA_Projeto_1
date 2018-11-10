@@ -297,7 +297,10 @@ lista_NRR *busca_nome(char *chave, FILE *arq_base, int tipo) {
 
     // A cada iteracao se pula o numero de matricula do registro
     while (fgets(lixo, pula, arq_base) != NULL) {
-
+    	if (lixo[0] == '*') {
+            NRR++;
+            continue;
+        }
     	// Le o nome do registro
         fgets(recebe_campo, tamanho_chave + 1, arq_base);
 

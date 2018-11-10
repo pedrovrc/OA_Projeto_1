@@ -59,7 +59,10 @@ int gera_ind_prim(FILE* arq_base, char* nome_gerado) {
 
     // A cada iteracao, le-se uma linha nova de arq_base
     while (fgets(linha_atual, TAM_REG, arq_base) != NULL) {
-        
+        if (linha_atual[0] == '*') {
+            endereco_registro++;
+            continue;
+        }
         // Enche string com espacos para evitar sobras quando sobrescrever
         for (int i = 0; i < TAM_CHAVE; i++) {
             chave_prim[i] = ' ';
@@ -125,7 +128,9 @@ int gera_ind_sec(FILE* arq_base, FILE* ind_prim, char* nome_gerado) {
     lista_comeco->primeiro = NULL;
 
     // Preenche primeira celula de curso
-    fgets(linha_atual, TAM_REG, arq_base);
+    do {
+        fgets(linha_atual, TAM_REG, arq_base);
+    } while (linha_atual[0] == '*');
     lista_comeco->curso[0] = linha_atual[POS_CURSO];
     lista_comeco->curso[1] = linha_atual[POS_CURSO + 1];
     lista_comeco->curso[2] = '\0';
@@ -147,7 +152,9 @@ int gera_ind_sec(FILE* arq_base, FILE* ind_prim, char* nome_gerado) {
 
     // A cada iteracao, le-se uma linha nova de arq_base
     while (fgets(linha_atual, TAM_REG, arq_base) != NULL) {
-
+        if (linha_atual[0] == '*') {
+            continue;
+        }
     	// Inicia string compara_curso com curso do registro lido
         compara_curso[0] = linha_atual[POS_CURSO];
         compara_curso[1] = linha_atual[POS_CURSO + 1];

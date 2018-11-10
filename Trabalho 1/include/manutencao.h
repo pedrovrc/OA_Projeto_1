@@ -13,3 +13,6 @@
 #include <stdio.h>
 
 void atualiza_cabecalho(char *nome_arq, int qtd_linha);
+void insere_reg(int opcao, int tipo, int NRR);
+void verifica_entrada(char *item, int tam_esperado);
+void remove_reg(int tipo, int NRR);

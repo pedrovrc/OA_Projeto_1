@@ -14,10 +14,12 @@
 #include "indice.h"
 #include "ordenacao.h"
 #include "pesquisa.h"
+#include "manutencao.h"
 
 #define TAM_REG 65			// Tamanho do registro no arquivo base
 
 // Declaracao de funcoes usadas na main
+void modifica(lista_NRR *pRetorno);
 void atualiza_arquivos();
 int menu();
 
@@ -42,13 +44,13 @@ int main() {
 		opcao = menu();
 
 		if (opcao >= 1 && opcao <= 3) {
-		    lista_NRR *pRetorno= pesquisa(opcao);
-
+		    lista_NRR *pRetorno = pesquisa(opcao);
 		    if (pRetorno->NRR == -1) {
 		        printf("Registro nao encontrado!\n");
 		        //possível inserção
 		    } else {
 		        //atualizar ou excluir
+		        modifica(pRetorno);
 		    }
 		}
 
@@ -61,7 +63,7 @@ int main() {
     		fclose(arq_interc);
 		}
 
-	} while (opcao != 8);
+	} while (opcao != 6);
 
     return 0;
 }
@@ -129,22 +131,71 @@ int menu() {
         printf("O que deseja fazer?\n\n");
         printf("1. Pesquisar matricula\n2. Pesquisar curso\n3. Pesquisar nome\n");
         printf("4. Mostrar base de dados completa\n5. Inserir registro novo\n");
-        printf("6. Remover registro\n7. Atualizar registro\n8. Sair\n\n");
+        printf("6. Sair\n\n");
         scanf("%d", &opcao);
 
-        if (opcao < 1 || opcao > 8) {
+        if (opcao < 1 || opcao > 6) {
             printf("\nEntrada invalida!\n\n");
         }
         if (opcao == 5) {
-        	printf("\nFuncionalidade <Inserir registro> ainda nao disponivel.\n\n");
+ 			insere_reg(0, 0, 0);
+ 			atualiza_arquivos();
+ 			printf("\nRegistro inserido com sucesso!\n\n");      
         }
-        if (opcao == 6) {
-        	printf("\nFuncionalidade <Remover registro> ainda nao disponivel.\n\n");
-        }
-        if (opcao == 7) {
-        	printf("\nFuncionalidade <Atualizar registro> ainda nao disponivel.\n\n");
-        }
-    } while (opcao != 1 && opcao != 2 && opcao != 3 && opcao != 4 && opcao != 8);
+    } while (opcao < 1 || opcao > 6);
 
     return opcao;
+}
+
+void modifica(lista_NRR *pRetorno) {
+
+	lista_NRR *aux;	
+	aux = pRetorno;
+	int opcao;
+	do {
+		printf("\n\t -ACESSO AO BANCO DE DADOS-\n\n");
+        printf("Selecione o que deseja fazer:\n\n");
+        printf("1. Remover registro\n2. Atualizar registro\n3. Voltar\n");
+        scanf("%d", &opcao);
+
+        if (opcao < 1 || opcao > 3) {
+            printf("\nEntrada invalida!\n\n");
+        }
+
+    } while (opcao != 1 && opcao != 2 && opcao != 3);
+
+    if (opcao == 1) {
+    	printf("Selecione o registro a ser removido: \n");
+    	scanf("%d", &opcao);
+    	
+    	for (int i = 0; i < opcao-1; i++) {
+    		if (aux == NULL) {
+    			printf("\nEntrada invalida\n");
+    			return;
+    		}
+    		aux = aux->prox;
+    	}
+
+    	remove_reg(aux->tipo, aux->NRR);
+    	atualiza_arquivos();
+    	printf("Registro removido com sucesso!\n");
+    }
+    if (opcao == 2) {
+    	printf("Selecione o registro a ser atualizado: \n");
+    	scanf("%d", &opcao);
+    	
+    	for (int i = 0; i < opcao-1; i++) {
+    		if (aux == NULL) {
+    			printf("\nEntrada invalida\n");
+    			return;
+    		}
+    		aux = aux->prox;
+    	}
+
+    	insere_reg(1, aux->tipo, aux->NRR);
+    	atualiza_arquivos();
+    	printf("Registro atualizado com sucesso!\n");
+    }
+
+	return;
 }
