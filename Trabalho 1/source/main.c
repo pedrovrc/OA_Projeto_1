@@ -11,6 +11,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "indice.h"
 #include "ordenacao.h"
 #include "pesquisa.h"
@@ -39,6 +40,8 @@ int main() {
     char linha[TAM_REG];
 
     atualiza_arquivos();
+    lista_NRR *aux;
+    lista_NRR *sentinela;
 		
 	do {
 		opcao = menu();
@@ -51,6 +54,14 @@ int main() {
 		    } else {
 		        //atualizar ou excluir
 		        modifica(pRetorno);
+		        aux = pRetorno->prox;
+		        sentinela = pRetorno;
+		        while (aux != NULL) {
+		        	free(sentinela);
+		        	sentinela = aux;
+		        	aux = aux->prox;
+		        }
+		        free(sentinela);
 		    }
 		}
 
@@ -155,7 +166,7 @@ void modifica(lista_NRR *pRetorno) {
 	do {
 		printf("\n\t -ACESSO AO BANCO DE DADOS-\n\n");
         printf("Selecione o que deseja fazer:\n\n");
-        printf("1. Remover registro\n2. Atualizar registro\n3. Voltar\n");
+        printf("1. Remover registro\n2. Atualizar registro\n3. Voltar\n\n");
         scanf("%d", &opcao);
 
         if (opcao < 1 || opcao > 3) {
@@ -165,7 +176,7 @@ void modifica(lista_NRR *pRetorno) {
     } while (opcao != 1 && opcao != 2 && opcao != 3);
 
     if (opcao == 1) {
-    	printf("Selecione o registro a ser removido: \n");
+    	printf("Selecione o registro a ser removido (Numero de indice):\n\n");
     	scanf("%d", &opcao);
     	
     	for (int i = 0; i < opcao-1; i++) {
@@ -181,7 +192,7 @@ void modifica(lista_NRR *pRetorno) {
     	printf("Registro removido com sucesso!\n");
     }
     if (opcao == 2) {
-    	printf("Selecione o registro a ser atualizado: \n");
+    	printf("Selecione o registro a ser atualizado (Numero de indice):\n\n");
     	scanf("%d", &opcao);
     	
     	for (int i = 0; i < opcao-1; i++) {
@@ -194,7 +205,7 @@ void modifica(lista_NRR *pRetorno) {
 
     	insere_reg(1, aux->tipo, aux->NRR);
     	atualiza_arquivos();
-    	printf("Registro atualizado com sucesso!\n");
+    	printf("Registro atualizado com sucesso!\n\n");
     }
 
 	return;
